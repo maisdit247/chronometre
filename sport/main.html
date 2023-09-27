@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repetitio est potentia</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    
+    <div id="prin">
+        
+        <div id="carac">
+            <button id="start" ></button>
+            <button id="stop"></button>
+            <button id="reset"></button>
+            <div id="delay">Before start</div>
+            <input type="number" id="timedelay" value="0" onkeypress="next1()">
+            <div id="work">Work</div>
+            <input type="number" id="timework" value="0" onkeypress="next2()">
+            <div id="vitesse">Speed</div>
+            <input type="range" id="vit" min="-1" max="1" step="1">
+            <div id="pause">Pause</div>
+            <input type="number" name="" id="timepause" value="0" onkeypress="next3()">
+            <div id="round">Round</div>
+            <input type="number" name="" id="nbround" value="1" >
+            <a href="main2.html"><button id="page2"></button></a>
+        </div>
+        
+        <div id="result">
+            <img src="logo.png" id="img" alt="">
+            <img src="logofd.png" id="img2" alt="">
+            <span id="res">0</span>
+            <span id="totround"></span>
+            <span id="txtres"></span>
+        </div>
+        
+        <script type="text/javascript">
+            var delai =document.getElementById("timedelay");
+            var work =document.getElementById("timework");
+            var resultat =document.getElementById("res");
+            var txtresult =document.getElementById("txtres");
+            var pause =document.getElementById("timepause");
+            var round = document.getElementById("nbround");
+            var totr = document.getElementById("totround");
+            var speed = document.getElementById("vit");
+            var reset = document.getElementById("reset");
+            var start = document.getElementById("start");
+            var stoped = document.getElementById("stop");
+            var var1,var2,var3;
+            var s=0;
+
+            function bip(){
+                var bip= new Audio();
+                bip.src="bipcourt.mp3"
+                bip.play();
+            }
+            function tic(){
+                var tic= new Audio();
+                tic.src="tic.mp3"
+                tic.play();
+            }
+
+            function next1(){
+                if(event.keyCode==13){
+                    work.focus();
+                }
+            }
+
+            function next2(){
+                if(event.keyCode==13){
+                    pause.focus();  
+                }
+            }
+
+            function next3(){
+                if(event.keyCode==13){
+                    round.focus();
+                }
+            }
+        
+            stoped.onclick = function() {   
+                clearTimeout(var1);
+                clearTimeout(var2);
+                clearTimeout(var3);
+            }
+
+            reset.onclick=function(){
+                history.go(0)
+            }
+            start.onclick=function(){
+                timer();
+                
+            }
+            
+            round.onkeypress=function(){
+                if(event.key=13){timer()}
+                
+            }
+
+
+            function timer(){
+                
+                txtresult.innerHTML="Delay";
+                var1=setInterval(timerr,1000);
+                s=delai.value;
+                if(round.value<=0){
+                    alert("Ajouter au moins 1 ROUND") 
+                }
+            }
+
+            function timerr(){
+                resultat.innerHTML=s;
+                s--;
+                
+                if(s<=0){
+                    clearInterval(var1);
+                    chrono();
+                    bip();
+                }
+                if(s==2){
+                    bip();
+                }else if(s==1){
+                    bip();
+                }
+            }
+
+            function chrono(){
+                
+                var2=setInterval(tictac,1000);
+                totr.innerHTML="Round " + round.value;
+                round.value--;
+                if(round.value<0){
+                    clearInterval(var2);
+                    totr.innerHTML="";
+                    txtresult.innerHTML="next";
+                }
+            }
+
+            function tictac(){
+                txtresult.innerHTML="Work";
+                resultat.innerHTML=s;
+                s++;
+                if(s>1){tic()}
+                if (resultat.innerHTML<0){
+                    resultat.innerHTML="";
+                }else if(speed.value==-1){
+                    clearInterval(var2);
+                    tic();
+                    var2=setInterval(tictac,2000);
+                    if(s>work.value){
+                        clearInterval(var2);
+                        pauser();
+                    }
+                }else if(speed.value==1){
+                    clearInterval(var2);
+                    var2=setInterval(tictac,800);
+                    tic();
+                    if(s>work.value){
+                        clearInterval(var2);
+                        pauser();
+                    }
+                }
+                else if(s>work.value){
+                    clearInterval(var2);
+                    pauser();
+                }
+                
+            }
+
+            function pauser(){
+                var3=setInterval(poz,1000);
+                s=pause.value;
+            }
+
+            function poz(){
+                txtresult.innerHTML="Pause";
+                resultat.innerHTML=s;
+                s--;
+                if(s<=-1){
+                    clearInterval(var3);
+                    chrono();
+                }   
+                if(s==0){
+                    bip();
+                }else if(s==1){
+                    bip();
+                }else if(s==2){
+                    bip();
+                }
+            }
+        </script>
+    </div>
+</body>
+</html>

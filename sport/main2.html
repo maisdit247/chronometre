@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html >
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repetition est potentia</title>
+    <link rel="stylesheet" href="main2.css">
+</head>
+<body>
+    <h1 id="titre">Work Hard Play Hard</h1>
+    <img src="venum.png" id="img" alt="">
+    <div id="all">
+        <div id="carac">
+            <button id="start"></button>
+            <button id="stop"></button>
+            <button id="reset"></button>
+            <div id="delay">Before start</div>
+            <input type="number" id="timedelay" value="0" onkeypress="n1()">
+            <div id="work">Work</div>
+            <input type="number" id="timework" value="0" onkeypress="n2()">
+            <div id="vitesse">Speed</div>
+            <input type="range" id="vit"min="-1" max="1" step="1">
+            <div id="pause">Pause</div>
+            <input type="number" name="" id="timepause" value="0" onkeypress="n3()">
+        </div>
+        <div id="carac2">
+            <button id="block"></button>
+            <div id="work2">Work</div>
+            <input type="number" id="timework2" value="0" onkeypress="n4()">
+            <div id="vitesse2">Speed</div>
+            <input type="range" id="vit2" min="-1" max="1" step="1">
+            <div id="pause2">Pause</div>
+            <input type="number" name="" id="timepause2" value="0" onkeypress="n5()">
+        </div>
+        <div id="carac3">
+            <button id="block"></button>
+            <div id="work3">Work</div>
+            <input type="number" id="timework3" value="0" onkeypress="n6()">
+            <div id="vitesse3">Speed</div>
+            <input type="range" id="vit3" min="-1" max="1" step="1">
+            <div id="pause3">Pause</div>
+            <input type="number" name="" id="timepause3" value="0" onkeypress="if(event.keyCode==13)timer()">
+        </div>
+        <div id="result">
+            <span id="res">0</span>
+            <span id="txtres"></span>
+        </div>
+        <script type="text/javascript">
+            var delai =document.getElementById("timedelay");
+            var work =document.getElementById("timework");
+            var work2 =document.getElementById("timework2");
+            var work3 =document.getElementById("timework3");
+            var resultat =document.getElementById("res");
+            var txtresult =document.getElementById("txtres");
+            var pause =document.getElementById("timepause");
+            var pause2 =document.getElementById("timepause2");
+            var pause3 =document.getElementById("timepause3");
+            var speed = document.getElementById("vit");
+            var speed2 = document.getElementById("vit2");
+            var speed3 = document.getElementById("vit3");
+            var reset = document.getElementById("reset");
+            var start = document.getElementById("start");
+            var stoped = document.getElementById("stop");
+            var var1,var2,var3,var4,var5,var6,var7;
+            var s=0;
+            
+            stoped.onclick = function() {   
+                clearTimeout(var1);
+                clearTimeout(var2);
+                clearTimeout(var3);
+                clearTimeout(var4);
+                clearTimeout(var5);
+                clearTimeout(var6);
+                clearTimeout(var7);
+            }
+
+            reset.onclick=function(){
+                history.go(0)
+            }
+            start.onclick=function(){
+                timer();
+                
+            }
+           
+            function bip(){
+                var bip= new Audio();
+                bip.src="bipcourt.mp3"
+                bip.play();
+            }
+            function tic(){
+                var tic= new Audio();
+                tic.src="tic.mp3";
+                tic.play();
+            }
+
+            function n1(){
+                if(event.keyCode==13){
+                    work.focus();
+                }
+            }
+            function n2(){
+                if(event.keyCode==13){
+                    pause.focus();  
+                }
+            }
+
+            function n3(){
+                if(event.keyCode==13){
+                    work2.focus();
+                }
+            }
+            function n4(){
+                if(event.keyCode==13){
+                    pause2.focus();
+                }
+            }
+            function n5(){
+                if(event.keyCode==13){
+                    work3.focus();  
+                }
+            }
+
+            function n6(){
+                if(event.keyCode==13){
+                    pause3.focus();
+                }
+            }
+
+            function timer(){
+                txtresult.innerHTML="Delay";
+                var1=setInterval(timerr,1000);
+                s=delai.value;
+            }
+            function timerr(){
+                resultat.innerHTML=s;
+                s--;
+                if(s<=0){
+                    clearInterval(var1);
+                    chrono();
+                    bip();
+                }
+                if(s==2){
+                    bip();
+                }else if(s==1){
+                    bip();
+                }
+            }
+
+            function chrono(){
+                var2=setInterval(tictac,1000);
+            }
+            /*vit.value je ne sais pas d'ou il sort genre la machine 
+            la confondu avec var speed mdr. est ce qu'elle a pris 
+            l'initiative*/
+            function tictac(){
+                txtresult.innerHTML="Work.";
+                resultat.innerHTML=s;
+                s++;
+                if(s>1){tic()}
+                if(resultat.innerHTML<0){
+                    resultat.innerHTML=""
+                }else if(vit.value==-1){
+                    clearInterval(var2);
+                    tic();
+                    var2=setInterval(tictac,2000);
+                    if(s>work.value){
+                        clearInterval(var2);
+                        pauser();
+                    }
+                }else if(vit.value==1){
+                    clearInterval(var2);
+                    var2=setInterval(tictac,800);
+                    tic();
+                    if(s>work.value){
+                        clearInterval(var2);
+                        pauser();
+                    }
+                }else if(s>work.value){
+                    clearInterval(var2);
+                    pauser();
+                }else if (s<work.value){tic();}
+            }
+
+            function chrono2(){
+                var4=setInterval(tictac2,1000);
+            }
+            function tictac2(){
+                txtresult.innerHTML= "Work..";
+                resultat.innerHTML=s;
+                s++;
+                if(s>1){tic()}
+                if(resultat.innerHTML<0){
+                    resultat.innerHTML="";
+                }else if(speed2.value==-1){
+                    clearInterval(var4);
+                    var4=setInterval(tictac2,2000);
+                    tic();
+                    if(s>work2.value){
+                        clearInterval(var4);
+                        pauser2();
+                    }
+                }else if(speed2.value==1){
+                    clearInterval(var4);
+                    tic();
+                    var4=setInterval(tictac2,800);
+                    if(s>work2.value){
+                        clearInterval(var4);
+                        pauser2();
+                    }
+                }else if(s>work2.value){
+                    clearInterval(var4);
+                    pauser2();
+                }
+            }
+
+            function chrono3(){
+                var6=setInterval(tictac3,1000);
+            }
+            function tictac3(){
+                txtresult.innerHTML= "Work...";
+                resultat.innerHTML=s;
+                s++;
+                if(s>1){tic()}
+                if(resultat.innerHTML<0){
+                    resultat.innerHTML="";
+                }else if(speed3.value==-1){
+                    clearInterval(var6);
+                    tic();
+                    var6=setInterval(tictac3,2000);
+                    if(s>work3.value){
+                        clearInterval(var6);
+                        pauser3();
+                    }
+                }else if(speed3.value==1){
+                    clearInterval(var6);
+                    tic();
+                    var6=setInterval(tictac3,800);
+                    if(s>work3.value){
+                        clearInterval(var6);
+                        pauser();
+                    }
+                }else if(s>work3.value){
+                    clearInterval(var6);
+                    pauser3();
+                }
+                
+            }
+            function pauser(){
+                var3=setInterval(poz,1000);
+                s=pause.value;
+            }
+            function poz(){
+                txtresult.innerHTML="Pause.";
+                resultat.innerHTML=s;
+                s--;
+                if(s<=-1){
+                    clearInterval(var3);
+                    chrono2();
+                }
+                if(s==0){
+                    bip();
+                }else if(s==1){
+                    bip();
+                }else if(s==2){
+                    bip();
+                }
+            }
+
+            function pauser2(){
+                var5=setInterval(poz2,1000)
+                s=pause2.value;
+            }
+            function poz2(){
+                txtresult.innerHTML="Pause..";
+                resultat.innerHTML=s;
+                s--;
+                if(s<=-1){
+                    clearInterval(var5);
+                    chrono3();
+                }
+                if(s==0){
+                    bip();
+                }else if(s==1){
+                    bip();
+                }else if(s==2){
+                    bip();
+                }
+            }
+            function pauser3(){
+                var7=setInterval(poz3,1000)
+                s=pause3.value;
+            }
+            function poz3(){
+                txtresult.innerHTML="Pause...";
+                resultat.innerHTML=s;
+                s--;
+                if(s<=-1){
+                    clearInterval(var7);
+                    txtresult.innerHTML="Most";
+                }
+                if(s==0){
+                    bip();
+                }else if(s==1){
+                    bip();
+                }else if(s==2){
+                    bip();
+                }
+            }
+            
+        </script>
+    </div>
+    
+
+    </script>
+</body> 
+</html>
